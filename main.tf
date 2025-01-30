@@ -11,6 +11,7 @@ module "jenkins_sg" {
 module "jenkins_instance" {
   source = "./modules/ec2-instance"
 
+  ami_id             = var.ami_id
   instance_type      = var.instance_type
   key_name           = var.key_name
   subnet_id          = var.subnet_id
@@ -21,7 +22,7 @@ module "jenkins_instance" {
 module "ebs_snapshot" {
   source = "./modules/ebs-snapshot"
 
-  instance_id = module.jenkins_instance.instance_id
   volume_id   = module.jenkins_instance.volume_id
+  aws_region  = var.aws_region
 }
 

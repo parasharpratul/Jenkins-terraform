@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_backup_vault" "jenkins_backup_vault" {
   name = "jenkins_backup_vault"
 }
@@ -22,7 +24,7 @@ resource "aws_backup_selection" "jenkins_backup_selection" {
   plan_id      = aws_backup_plan.jenkins_backup_plan.id
 
   resources = [
-    var.volume_id
+    "arn:aws:ec2:${var.aws_region}:${data.aws_caller_identity.current.account_id}:volume/${var.volume_id}"
   ]
 }
 
